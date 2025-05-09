@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.alex9043.wrtesttask.dto.CreateUserRequest;
+import ru.alex9043.wrtesttask.dto.UpdateUserRequest;
 import ru.alex9043.wrtesttask.dto.UserResponse;
 import ru.alex9043.wrtesttask.service.UserService;
 
@@ -21,5 +22,17 @@ public class UserController {
     @GetMapping("{id}")
     public ResponseEntity<UserResponse> getUser(@PathVariable("id") String id) {
         return userService.getUser(id);
+    }
+
+    @PutMapping("{id}")
+    public ResponseEntity<UserResponse> updateUser(
+            @PathVariable("id") String id,
+            @RequestBody UpdateUserRequest updateUserRequest) {
+        return userService.updateUser(id, updateUserRequest);
+    }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<String> deleteUser(@PathVariable("id") String id) {
+        return userService.deleteUser(id);
     }
 }
