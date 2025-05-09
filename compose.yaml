@@ -1,0 +1,51 @@
+services:
+  server:
+    build:
+      context: .
+    ports:
+      - 8080:8080
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      - POSTGRES_PASSWORD_FILE=${POSTGRES_PASSWORD_FILE}
+      - POSTGRES_PORT=${POSTGRES_PORT}
+      - POSTGRES_URL=${POSTGRES_URL}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_DB=${POSTGRES_DB}
+    secrets:
+      - db-password
+    networks:
+      WRTTNetwork:
+
+  db:
+    image: postgres
+    restart: always
+    user: ${POSTGRES_USER}
+    secrets:
+      - db-password
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    ports:
+      - 54321:5432
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_PASSWORD_FILE=${POSTGRES_PASSWORD_FILE}
+    healthcheck:
+      test: [ "CMD", "pg_isready" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      WRTTNetwork:
+
+volumes:
+  db-data:
+
+secrets:
+  db-password:
+    file: db/password.txt
+
+networks:
+  WRTTNetwork:
+    driver: bridge

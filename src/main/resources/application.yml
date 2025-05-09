@@ -1,3 +1,11 @@
 spring:
   application:
     name: WRTestTask
+  datasource:
+    url: jdbc:postgresql://db:5432/WRTTDatabase
+    username: postgres
+    password: admin
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
