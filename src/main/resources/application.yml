@@ -9,3 +9,10 @@ spring:
   jpa:
     hibernate:
       ddl-auto: create-drop
+
+logging:
+  level:
+    ru.alex9043.wrtesttask: DEBUG
+  threshold:
+    console: INFO
+    file: DEBUG
