@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
     <springProperty name="SERVICE_NAME" source="spring.application.name" defaultValue="WRTestTask"/>
-
     <property name="LOG_DIR" value="/app/logs"/>
 
     <appender name="JSON_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>${LOG_DIR}/${SERVICE_NAME}.log</file>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>DEBUG</level>
+        </filter>
         <encoder class="net.logstash.logback.encoder.LogstashEncoder">
             <customFields>{"service":"${SERVICE_NAME}", "env":"${spring.profiles.active:-default}"}</customFields>
         </encoder>
@@ -17,15 +19,16 @@
     </appender>
 
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>INFO</level>
+        </filter>
         <encoder>
             <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
         </encoder>
     </appender>
 
-    <root level="info">
-        <appender-ref ref="CONSOLE"/>
+    <root level="DEBUG">
         <appender-ref ref="JSON_FILE"/>
+        <appender-ref ref="CONSOLE"/>
     </root>
-
-    <logger name="ru.alex9043.wrtesttask" level="debug"/>
 </configuration>

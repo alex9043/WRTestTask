@@ -1,4 +1,4 @@
-package ru.alex9043.wrtesttask.dto;
+package ru.alex9043.wrtesttask.dto.user;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

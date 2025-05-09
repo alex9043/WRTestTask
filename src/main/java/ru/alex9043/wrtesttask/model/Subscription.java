@@ -7,29 +7,30 @@ import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.proxy.HibernateProxy;
+import ru.alex9043.wrtesttask.model.enums.ServicesType;
 
 import java.time.LocalDateTime;
-import java.util.LinkedHashSet;
 import java.util.Objects;
-import java.util.Set;
+import java.util.UUID;
 
 @Getter
 @Setter
 @Entity
-@Table(name = "users")
-public class User {
+@Table(name = "subscriptions")
+public class Subscription {
     @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "id", nullable = false)
-    @JsonProperty("id")
-    private String id;
+    private UUID id;
 
-    @Column(name = "username", nullable = false, unique = true)
-    @JsonProperty("username")
-    private String username;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "services_type", nullable = false)
+    @JsonProperty("service_type")
+    private ServicesType servicesType;
 
-    @Column(name = "email", nullable = false, unique = true)
-    @JsonProperty("email")
-    private String email;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @Column(name = "created_at", nullable = false, updatable = false)
     @CreationTimestamp
@@ -41,9 +42,6 @@ public class User {
     @JsonProperty("updated_at")
     private LocalDateTime updatedAt;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Subscription> subscriptions = new LinkedHashSet<>();
-
     @Override
     public final boolean equals(Object o) {
         if (this == o) return true;
@@ -51,8 +49,8 @@ public class User {
         Class<?> oEffectiveClass = o instanceof HibernateProxy ? ((HibernateProxy) o).getHibernateLazyInitializer().getPersistentClass() : o.getClass();
         Class<?> thisEffectiveClass = this instanceof HibernateProxy ? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass() : this.getClass();
         if (thisEffectiveClass != oEffectiveClass) return false;
-        User user = (User) o;
-        return getId() != null && Objects.equals(getId(), user.getId());
+        Subscription that = (Subscription) o;
+        return getId() != null && Objects.equals(getId(), that.getId());
     }
 
     @Override
