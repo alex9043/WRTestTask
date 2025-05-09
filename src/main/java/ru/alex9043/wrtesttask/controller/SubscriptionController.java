@@ -9,6 +9,8 @@ import ru.alex9043.wrtesttask.dto.subscription.SubscriptionResponse;
 import ru.alex9043.wrtesttask.dto.subscription.UserSubscriptionsResponse;
 import ru.alex9043.wrtesttask.service.SubscriptionService;
 
+import java.util.UUID;
+
 @RestController
 @RequiredArgsConstructor
 @Slf4j
@@ -27,5 +29,12 @@ public class SubscriptionController {
     public ResponseEntity<UserSubscriptionsResponse> getUserSubscriptions(@PathVariable("id") String userId) {
         log.info("Запрос на получение списка подписок пользвоателя");
         return subscriptionService.getUserSubscriptions(userId);
+    }
+
+    @DeleteMapping("/users/{user_id}/subscriptions/{sub_id}")
+    public ResponseEntity<String> deleteSubscription(@PathVariable("user_id") String userId,
+                                                     @PathVariable("sub_id") UUID subId) {
+        log.info("Запрос на удаление подписки у пользвоателя");
+        return subscriptionService.deleteSubscription(userId, subId);
     }
 }

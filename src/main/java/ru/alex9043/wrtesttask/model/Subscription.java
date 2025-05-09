@@ -21,6 +21,7 @@ public class Subscription {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "id", nullable = false)
+    @JsonProperty("id")
     private UUID id;
 
     @Enumerated(EnumType.STRING)

@@ -15,6 +15,7 @@ import ru.alex9043.wrtesttask.model.User;
 import ru.alex9043.wrtesttask.repo.SubscriptionRepository;
 
 import java.util.Set;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -69,5 +70,15 @@ public class SubscriptionService {
 
         log.info("Подписки пользователя получены");
         return new ResponseEntity<>(new UserSubscriptionsResponse(responseSet), HttpStatus.OK);
+    }
+
+    @Transactional
+    public ResponseEntity<String> deleteSubscription(String userId, UUID subId) {
+        log.debug("id пользователя - {}, id подписки - {}", userId, subId);
+        User user = userService.findUserById(userId);
+
+        subscriptionRepository.deleteByIdAndUser(subId, user);
+
+        return new ResponseEntity<>("No Content", HttpStatus.NO_CONTENT);
     }
 }
