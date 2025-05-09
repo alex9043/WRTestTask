@@ -7,9 +7,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.alex9043.wrtesttask.dto.subscription.*;
+import ru.alex9043.wrtesttask.exception.InvalidServiceTypeException;
 import ru.alex9043.wrtesttask.mapper.SubscriptionMapper;
 import ru.alex9043.wrtesttask.model.Subscription;
 import ru.alex9043.wrtesttask.model.User;
+import ru.alex9043.wrtesttask.model.enums.ServicesType;
 import ru.alex9043.wrtesttask.repo.SubscriptionRepository;
 
 import java.util.Set;
@@ -53,9 +55,18 @@ public class SubscriptionService {
 
     private Subscription createSubscriptionEntity(User user, SubscriptionRequest request) {
         request.setServicesType(request.getServicesType().toUpperCase());
-        Subscription entity = subscriptionMapper.toEntity(request);
-        entity.setUser(user);
-        return entity;
+        try {
+            log.info("Попытка валидации имени подписки");
+            ServicesType.valueOf(request.getServicesType());
+
+            Subscription entity = subscriptionMapper.toEntity(request);
+            entity.setUser(user);
+            return entity;
+        } catch (IllegalArgumentException ex) {
+            log.error("Неправильное имя подписки");
+            throw new InvalidServiceTypeException(request.getServicesType());
+        }
+
     }
 
     @Transactional(readOnly = true)

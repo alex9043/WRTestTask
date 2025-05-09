@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.alex9043.wrtesttask.dto.user.CreateUserRequest;
 import ru.alex9043.wrtesttask.dto.user.UpdateUserRequest;
 import ru.alex9043.wrtesttask.dto.user.UserResponse;
+import ru.alex9043.wrtesttask.exception.UserNotFoundException;
 import ru.alex9043.wrtesttask.mapper.UserMapper;
 import ru.alex9043.wrtesttask.model.User;
 import ru.alex9043.wrtesttask.repo.UserRepository;
@@ -65,7 +66,7 @@ public class UserService {
         return userRepository.findById(userId).orElseThrow(
                 () -> {
                     log.error("Пользователь с id - {} не найден", userId);
-                    return new IllegalArgumentException("User not found by id");
+                    return new UserNotFoundException("User not found by id: " + userId);
                 }
         );
     }
