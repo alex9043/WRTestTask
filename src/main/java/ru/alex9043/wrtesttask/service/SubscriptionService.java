@@ -6,9 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.alex9043.wrtesttask.dto.subscription.SubscriptionRequest;
-import ru.alex9043.wrtesttask.dto.subscription.SubscriptionResponse;
-import ru.alex9043.wrtesttask.dto.subscription.UserSubscriptionsResponse;
+import ru.alex9043.wrtesttask.dto.subscription.*;
 import ru.alex9043.wrtesttask.mapper.SubscriptionMapper;
 import ru.alex9043.wrtesttask.model.Subscription;
 import ru.alex9043.wrtesttask.model.User;
@@ -80,5 +78,12 @@ public class SubscriptionService {
         subscriptionRepository.deleteByIdAndUser(subId, user);
 
         return new ResponseEntity<>("No Content", HttpStatus.NO_CONTENT);
+    }
+
+    public ResponseEntity<TopSubscriptionsResponse> getTopSubscriptions() {
+        Set<TopSubscriptionResponse> top3Subscriptions = subscriptionRepository.findTop3Subscriptions();
+
+        log.info("Топ подписок получен");
+        return new ResponseEntity<>(new TopSubscriptionsResponse(top3Subscriptions), HttpStatus.OK);
     }
 }

@@ -19,7 +19,7 @@ import java.util.Set;
 @Table(name = "users")
 public class User {
     @Id
-    @Column(name = "id", nullable = false)
+    @Column(name = "id", nullable = false, unique = true)
     @JsonProperty("id")
     private String id;
 

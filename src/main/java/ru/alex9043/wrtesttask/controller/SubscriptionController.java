@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.alex9043.wrtesttask.dto.subscription.SubscriptionRequest;
 import ru.alex9043.wrtesttask.dto.subscription.SubscriptionResponse;
+import ru.alex9043.wrtesttask.dto.subscription.TopSubscriptionsResponse;
 import ru.alex9043.wrtesttask.dto.subscription.UserSubscriptionsResponse;
 import ru.alex9043.wrtesttask.service.SubscriptionService;
 
@@ -36,5 +37,11 @@ public class SubscriptionController {
                                                      @PathVariable("sub_id") UUID subId) {
         log.info("Запрос на удаление подписки у пользвоателя");
         return subscriptionService.deleteSubscription(userId, subId);
+    }
+
+    @GetMapping("/subscriptions/top")
+    public ResponseEntity<TopSubscriptionsResponse> getTopSubscriptions() {
+        log.info("Запрос на получение самых популярных подписок у пользователей");
+        return subscriptionService.getTopSubscriptions();
     }
 }

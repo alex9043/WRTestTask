@@ -7,6 +7,6 @@ import java.util.UUID;
 
 public record SubscriptionResponse(
         @JsonProperty("id") UUID id,
-        @JsonProperty("service_type") ServicesType servicesType,
+        @JsonProperty("services_type") ServicesType servicesType,
         @JsonProperty("user_id") String userId) {
 }

@@ -5,6 +5,6 @@ import lombok.Data;
 
 @Data
 public class SubscriptionRequest {
-    @JsonProperty("service_type")
+    @JsonProperty("services_type")
     private String servicesType;
 }
