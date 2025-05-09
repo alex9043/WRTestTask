@@ -6,6 +6,8 @@ import ru.alex9043.wrtesttask.dto.subscription.SubscriptionRequest;
 import ru.alex9043.wrtesttask.dto.subscription.SubscriptionResponse;
 import ru.alex9043.wrtesttask.model.Subscription;
 
+import java.util.Set;
+
 import static org.mapstruct.MappingConstants.ComponentModel.SPRING;
 
 @Mapper(componentModel = SPRING)
@@ -14,4 +16,6 @@ public interface SubscriptionMapper {
 
     @Mapping(source = "user.id", target = "userId")
     SubscriptionResponse toResponse(Subscription subscription);
+
+    Set<SubscriptionResponse> toResponseSet(Set<Subscription> subscriptions);
 }

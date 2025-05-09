@@ -41,7 +41,7 @@ public class User {
     @JsonProperty("updated_at")
     private LocalDateTime updatedAt;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private Set<Subscription> subscriptions = new LinkedHashSet<>();
 
     @Override
