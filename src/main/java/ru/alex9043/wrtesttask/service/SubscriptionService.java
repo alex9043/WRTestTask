@@ -80,6 +80,7 @@ public class SubscriptionService {
         return new ResponseEntity<>("No Content", HttpStatus.NO_CONTENT);
     }
 
+    @Transactional(readOnly = true)
     public ResponseEntity<TopSubscriptionsResponse> getTopSubscriptions() {
         Set<TopSubscriptionResponse> top3Subscriptions = subscriptionRepository.findTop3Subscriptions();
 

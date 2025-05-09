@@ -3,6 +3,7 @@ package ru.alex9043.wrtesttask.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.alex9043.wrtesttask.dto.user.CreateUserRequest;
 import ru.alex9043.wrtesttask.dto.user.UpdateUserRequest;
@@ -17,7 +18,7 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping
-    public ResponseEntity<UserResponse> createUser(@RequestBody CreateUserRequest createUserRequest) {
+    public ResponseEntity<UserResponse> createUser(@Validated @RequestBody CreateUserRequest createUserRequest) {
         log.info("Запрос на создание пользователя");
         return userService.createUser(createUserRequest);
     }
@@ -31,7 +32,7 @@ public class UserController {
     @PutMapping("{id}")
     public ResponseEntity<UserResponse> updateUser(
             @PathVariable("id") String id,
-            @RequestBody UpdateUserRequest updateUserRequest) {
+            @Validated @RequestBody UpdateUserRequest updateUserRequest) {
         log.info("Запрос на изменение пользователя");
         return userService.updateUser(id, updateUserRequest);
     }

@@ -3,6 +3,7 @@ package ru.alex9043.wrtesttask.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.alex9043.wrtesttask.dto.subscription.SubscriptionRequest;
 import ru.alex9043.wrtesttask.dto.subscription.SubscriptionResponse;
@@ -21,7 +22,7 @@ public class SubscriptionController {
     @PostMapping("/users/{id}/subscriptions")
     public ResponseEntity<SubscriptionResponse> createSubscription(
             @PathVariable("id") String userId,
-            @RequestBody SubscriptionRequest subscriptionRequest) {
+            @Validated @RequestBody SubscriptionRequest subscriptionRequest) {
         log.info("Запрос на создание подписки");
         return subscriptionService.createSubscription(userId, subscriptionRequest);
     }
