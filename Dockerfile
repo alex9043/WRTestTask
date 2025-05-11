@@ -38,4 +38,4 @@ COPY --from=extract build/target/extracted/snapshot-dependencies/ ./
 COPY --from=extract build/target/extracted/application/ ./
 
 EXPOSE 8080
-ENTRYPOINT [ "java", "org.springframework.boot.loader.launch.JarLauncher" ]
+ENTRYPOINT ["sh", "-c", "export POSTGRES_PASSWORD=$(cat /run/secrets/db-password) && exec java org.springframework.boot.loader.launch.JarLauncher \"$@\"", "--"]

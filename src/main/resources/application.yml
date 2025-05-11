@@ -2,13 +2,13 @@ spring:
   application:
     name: WRTestTask
   datasource:
-    url: jdbc:postgresql://db:5432/WRTTDatabase
-    username: postgres
-    password: admin
+    url: jdbc:postgresql://${POSTGRES_URL}:${POSTGRES_PORT}/${POSTGRES_DB}
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
-      ddl-auto: validate
+      ddl-auto: create-drop
 
 logging:
   level:

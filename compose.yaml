@@ -10,7 +10,6 @@ services:
     volumes:
       - ./logs:/app/logs
     environment:
-      - POSTGRES_PASSWORD_FILE=${POSTGRES_PASSWORD_FILE}
       - POSTGRES_PORT=${POSTGRES_PORT}
       - POSTGRES_URL=${POSTGRES_URL}
       - POSTGRES_USER=${POSTGRES_USER}
@@ -32,7 +31,7 @@ services:
       - 54321:5432
     environment:
       - POSTGRES_DB=${POSTGRES_DB}
-      - POSTGRES_PASSWORD_FILE=${POSTGRES_PASSWORD_FILE}
+      - POSTGRES_PASSWORD_FILE=/run/secrets/db-password
     healthcheck:
       test: [ "CMD", "pg_isready" ]
       interval: 10s
@@ -46,7 +45,7 @@ volumes:
 
 secrets:
   db-password:
-    file: db/password.txt
+    file: ./db/password.txt
 
 networks:
   WRTTNetwork:
